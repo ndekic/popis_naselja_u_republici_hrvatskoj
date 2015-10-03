@@ -5,16 +5,16 @@
 		$nazivtablice = $_POST["nazivtablice"];
 
 		$veza->beginTransaction();
-
-		$izraz=$veza->prepare("	drop table if exists $nazivtablice;	
-								create table $nazivtablice(
-								ID 				int not null primary key auto_increment,
-								mjesto 			varchar(100) not null,
-								postanskiBroj 	varchar(20) not null,
-								opcina 			varchar(100) not null,
-								zupanija 		varchar(100) not null
-								)engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;"
-							);
+		$izraz=$veza->prepare
+		(	"drop table if exists $nazivtablice;	
+			create table $nazivtablice(
+			ID 				int not null primary key auto_increment,
+			mjesto 			varchar(100) not null,
+			postanskiBroj 	varchar(20) not null,
+			opcina 			varchar(100) not null,
+			zupanija 		varchar(100) not null
+			)engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;"
+		);
 		$izraz->execute();
 
 		$dokument = file_get_contents($_FILES['datoteka']['tmp_name']);
@@ -25,9 +25,10 @@
 				foreach ($rezultati as $r) {
 					unset($r["ID"]);
 							
-					$izraz=$veza->prepare(" insert $nazivtablice (mjesto, postanskiBroj, opcina, zupanija) 
-											values (:mjesto, :postanskiBroj, :opcina, :zupanija);"
-										);
+					$izraz=$veza->prepare
+					(	"insert $nazivtablice (mjesto, postanskiBroj, opcina, zupanija) 
+						values (:mjesto, :postanskiBroj, :opcina, :zupanija);"
+					);
 					$izraz->execute($r);			
 				}
 			$poruka = "OK :)";
@@ -55,7 +56,7 @@
 					<input type="submit" value="Preuzmi JSON" name="preuzmi" />
 				</fieldset>
 			</form>
-			
+
 			<br />	
 
 			<form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>" enctype="multipart/form-data" accept=".json" >
@@ -85,7 +86,7 @@
 					<br />
 					<input type="file" name="datoteka" id="datoteka" required="required"/>
 					<br /><br />
-					<input type="submit" value="Unesi u bazu" name="dodaj" class="siroko" />					
+					<input type="submit" value="Unesi u bazu podataka" name="dodaj" class="siroko" />					
 					<p>* obavezan unos</p>
 				</fieldset>
 			</form>
@@ -93,7 +94,7 @@
 
 		<div class="col span_1_of_2">
 			<?php if (isset($poruka)): ?>
-				<h4>Popis mjesta RH uspješno je unesen u bazu. Prikazano je prvih 10 redova.</h4>
+				<h4>Popis mjesta RH uspješno je unesen u bazu podataka <i><?php echo $_POST["imebaze"] ?></i>.<br />Prikazano je prvih 10 redova tablice <i><?php echo $nazivtablice; ?></i>.</h4>
 				<table style="width:100%" border="1" cellpadding="5px">
 					<thead>
 						<tr>
