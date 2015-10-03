@@ -1,8 +1,18 @@
 <?php
 	
 	if (isset($_POST["dodaj"])) {
-		include_once 'spajanje_na_bazu.php';
-		include_once 'unos_u_bazu.php';
+		try {
+			include_once 'spajanje_na_bazu.php';
+			include_once 'unos_u_bazu.php';
+    	} 
+    	catch (Exception $e) { ?>
+    		<h4>Provjerite točnost unesenih podataka.</h4>
+    		<a href="index.php"><h4>Natrag</h4></a>
+
+    	<?php
+
+        die;
+    	}		
 	}
 ?>
 <!DOCTYPE html>
