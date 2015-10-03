@@ -50,3 +50,6 @@ a{
 a:hover{
 	color: rgba(0, 24, 61, 1);
 }
+.centar{
+	text-align: center;
+}

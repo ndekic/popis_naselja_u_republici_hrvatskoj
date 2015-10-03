@@ -48,9 +48,9 @@
 					<br />
 					<input type="text" name="nazivtablice" id="nazivtablice" value="<?php echo isset($_POST['nazivtablice']) ? ($_POST['nazivtablice']) : "" ?>" required="required" />
 					<br /><br />
-					<label for ="korisnickoime">Korisničko ime pristupa bazi podataka</label>
+					<label for ="korisnickoime">Korisničko ime pristupa bazi podataka*</label>
 					<br />
-					<input type="text" name="korisnickoime" id="korisnickoime" value="<?php echo isset($_POST['korisnickoime']) ? ($_POST['korisnickoime']) : "" ?>" />
+					<input type="text" name="korisnickoime" id="korisnickoime" value="<?php echo isset($_POST['korisnickoime']) ? ($_POST['korisnickoime']) : "" ?>" required="required"/>
 					<br /><br />
 					<label for ="lozinka">Lozinka pristupa bazi podataka</label>
 					<br />
@@ -114,12 +114,12 @@
 		</div>
 	</div>
 	<hr />
-	<h4><a href="https://hr.linkedin.com/in/nikoladjekic">&copy; Nikola Đekić | <?php echo date("Y") . "."; ?></a></h4>
+	<h4 class="centar"><a target="_blank" href="https://hr.linkedin.com/in/nikoladjekic">&copy; Nikola Đekić | <?php echo date("Y") . "."; ?></a></h4>
 </body>
 <script type="text/javascript">
 	function promjena(){
 	    var elem = document.getElementById("dodaj");
-	    if (elem.value=="Unesi u bazu podataka") elem.value = "Pričekajte molim ...";
+	    if (elem.value=="Unesi u bazu podataka") elem.value = "Molim pričekajte ...";
 	    else elem.value = "Unesi u bazu podataka";
 	}
 </script>
