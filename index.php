@@ -1,16 +1,14 @@
-<?php
-	
+<?php	
 	if (isset($_POST["dodaj"])) {
 		try {
 			include_once 'spajanje_na_bazu.php';
 			include_once 'unos_u_bazu.php';
     	} 
     	catch (Exception $e) { ?>
+    		<meta charset="UTF-8">
     		<h4>Provjerite točnost unesenih podataka.</h4>
-    		<a href="index.php"><h4>Natrag</h4></a>
-
+    		<h4><a href="index.php">Natrag</a></h4>
     	<?php
-
         die;
     	}		
 	}
@@ -62,7 +60,7 @@
 					<br />
 					<input type="file" name="datoteka" id="datoteka" required="required"/>
 					<br /><br />
-					<input type="submit" value="Unesi u bazu podataka" name="dodaj" class="siroko" />					
+					<input type="submit" value="Unesi u bazu podataka" name="dodaj" class="siroko" id="dodaj" onclick="promjena()"/>					
 					<p>* Obavezan unos <br /> ** Odabrati <i>popis_naselja_u_republici_hrvatskoj.json</i> u mapi <i>json</i></p>
 				</fieldset>
 			</form>
@@ -115,5 +113,14 @@
 			<?php endif; ?>
 		</div>
 	</div>
+	<hr />
+	<h4><a href="https://hr.linkedin.com/in/nikoladjekic">&copy; Nikola Đekić | <?php echo date("Y") . "."; ?></a></h4>
 </body>
+<script type="text/javascript">
+	function promjena(){
+	    var elem = document.getElementById("dodaj");
+	    if (elem.value=="Unesi u bazu podataka") elem.value = "Pričekajte molim ...";
+	    else elem.value = "Unesi u bazu podataka";
+	}
+</script>
 </html>

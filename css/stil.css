@@ -37,3 +37,16 @@ input[type="text"], input[type="password"] {
 .siroko{
 	width: 100%;
 }
+a{
+	color: black;
+	text-decoration: none;
+	-o-transition: color 0.2s linear;
+	-moz-transition: color 0.2s linear;
+	-khtml-transition: color 0.2s linear;
+	-webkit-transition: color 0.2s linear;
+	-ms-transition: color 0.2s linear;
+	transition: color 0.2s linear;
+}
+a:hover{
+	color: rgba(0, 24, 61, 1);
+}
