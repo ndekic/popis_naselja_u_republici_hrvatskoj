@@ -82,12 +82,12 @@
 					<br />
 					<input type="password" name="lozinka" id="lozinka" value="<?php echo isset($_POST['lozinka']) ? ($_POST['lozinka']) : "" ?>"/>
 					<br /><br />
-					<label for ="datoteka">JSON datoteka*</label>
+					<label for ="datoteka">JSON datoteka**</label>
 					<br />
 					<input type="file" name="datoteka" id="datoteka" required="required"/>
 					<br /><br />
 					<input type="submit" value="Unesi u bazu podataka" name="dodaj" class="siroko" />					
-					<p>* obavezan unos</p>
+					<p>* Obavezan unos <br /> ** Odabrati <i>popis_naselja_u_republici_hrvatskoj.json</i> u mapi <i>json</i></p>
 				</fieldset>
 			</form>
 		</div>
