@@ -62,7 +62,7 @@
 			<?php if (isset($poruka)): ?>
 			<fieldset>
 				<legend>Prikaz</legend>
-					<h4>Popis naselja u RH uspješno je unesen u bazu podataka <i><?php echo $_POST["imebaze"] ?></i>.<br />Prikazano je prvih 10 redova tablice <i><?php echo $nazivtablice; ?></i>.</h4>
+					<h4>Popis naselja u RH uspješno je unesen u bazu podataka <i><?php echo $_POST["imebaze"] ?></i>.<br />Prikazano je prvih 10 redova tablice <i><?php echo $_POST["nazivtablice"]; ?></i>.</h4>
 					<table style="width:100%" border="1" cellpadding="5px">
 						<thead>
 							<tr>
@@ -75,7 +75,8 @@
 						<tbody>
 							<?php 
 								$veza->beginTransaction();
-					  			$izraz=$veza->prepare("select * from $nazivtablice limit 10");
+					  			$izraz=$veza->prepare("select * from nazivtablice limit 10");
+					  			$izraz->bindParam("nazivtablice",$_POST["nazivtablice"]);
 								$izraz->execute();
 								$rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
 								foreach ($rezultati as $red):
@@ -88,7 +89,8 @@
 						  	</tr>		  	
 						    <?php 
 						    	endforeach; 
-						    	$izraz=$veza->prepare("select count(*) from $nazivtablice");
+						    	$izraz=$veza->prepare("select count(*) from nazivtablice");
+						    	$izraz->bindParam("nazivtablice",$_POST["nazivtablice"]);
 								$izraz->execute();
 								$ukupno = $izraz->fetchColumn();
 								$veza->commit();

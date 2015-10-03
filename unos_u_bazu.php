@@ -1,11 +1,9 @@
 <?php
 
-$nazivtablice = $_POST["nazivtablice"];
-
 	$veza->beginTransaction();
 	$izraz=$veza->prepare
-	(	"drop table if exists $nazivtablice;	
-		create table $nazivtablice(
+	(	"drop table if exists nazivtablice;	
+		create table nazivtablice(
 		ID 				int not null primary key auto_increment,
 		mjesto 			varchar(100) not null,
 		postanskiBroj 	varchar(20) not null,
@@ -13,6 +11,7 @@ $nazivtablice = $_POST["nazivtablice"];
 		zupanija 		varchar(100) not null
 		)engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;"
 	);
+	$izraz->bindParam("nazivtablice",$_POST["nazivtablice"]);
 	$izraz->execute();
 
 	$dokument = file_get_contents($_FILES['datoteka']['tmp_name']);
@@ -24,9 +23,10 @@ $nazivtablice = $_POST["nazivtablice"];
 				unset($r["ID"]);
 						
 				$izraz=$veza->prepare
-				(	"insert $nazivtablice (mjesto, postanskiBroj, opcina, zupanija) 
+				(	"insert nazivtablice (mjesto, postanskiBroj, opcina, zupanija) 
 					values (:mjesto, :postanskiBroj, :opcina, :zupanija);"
 				);
+				$izraz->bindParam("nazivtablice",$_POST["nazivtablice"]);
 				$izraz->execute($r);			
 			}
 		$poruka = true;
