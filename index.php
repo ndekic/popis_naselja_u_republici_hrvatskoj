@@ -66,7 +66,7 @@
 					<br />
 					<input type="text" name="host" id="host" required="required" value="<?php echo isset($_POST['host']) ? ($_POST['host']) : "" ?>" required="required" placeholder="localhost"/>
 					<br /><br />		
-					<label for ="imebaze">Naziv baze*</label>
+					<label for ="imebaze">Naziv baze podataka*</label>
 					<br />
 					<input type="text" name="imebaze" id="imebaze" value="<?php echo isset($_POST['imebaze']) ? ($_POST['imebaze']) : "" ?>" required="required" />
 					<br /><br />
@@ -74,11 +74,11 @@
 					<br />
 					<input type="text" name="nazivtablice" id="nazivtablice" value="<?php echo isset($_POST['nazivtablice']) ? ($_POST['nazivtablice']) : "" ?>" required="required" />
 					<br /><br />
-					<label for ="korisnickoime">Korisničko ime pristupa bazi</label>
+					<label for ="korisnickoime">Korisničko ime pristupa bazi podataka</label>
 					<br />
 					<input type="text" name="korisnickoime" id="korisnickoime" value="<?php echo isset($_POST['korisnickoime']) ? ($_POST['korisnickoime']) : "" ?>" />
 					<br /><br />
-					<label for ="lozinka">Lozinka pristupa bazi</label>
+					<label for ="lozinka">Lozinka pristupa bazi podataka</label>
 					<br />
 					<input type="password" name="lozinka" id="lozinka" value="<?php echo isset($_POST['lozinka']) ? ($_POST['lozinka']) : "" ?>"/>
 					<br /><br />
