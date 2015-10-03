@@ -43,8 +43,14 @@
 	<title>JSON to SQL</title>
 </head>
 <body>
-	<form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>" enctype="multipart/form-data">
+
 	<h1>Popis mjesta RH</h1>
+	<form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
+		<input type="submit" value="Preuzmi JSON" name="preuzmi" />
+	</form>
+	<br />
+
+	<form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>" enctype="multipart/form-data" accept=".json" >
 		<label for ="host">Host</label>
 		<br />
 		<input type="text" name="host" id="host" required="required" value="localhost" />
@@ -77,10 +83,8 @@
 			}
 		?>
 	</form>
-	<form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
-	<input type="submit" value="Preuzmi JSON" name="preuzmi" />
-	</form>
-			
+	<br />
+	
 		<?php
 			$popis_mjesta_republika_hrvatska = 'popis_mjesta_republika_hrvatska.json';
 			if(isset($_POST["preuzmi"])){
