@@ -2,9 +2,10 @@
 	
 	if (isset($_POST["dodaj"])) {
 		include_once 'spajanje_na_bazu.php';
-
 		$nazivtablice = $_POST["nazivtablice"];
+
 		$veza->beginTransaction();
+
 		$izraz=$veza->prepare("	drop table if exists $nazivtablice;	
 								create table $nazivtablice(
 								ID 				int not null primary key auto_increment,
@@ -35,71 +36,103 @@
 		else{
 			$poruka = "Nije OK :(";
 		}
-	} // POST
+	}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>JSON to SQL</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/stil.css">
 </head>
 <body>
+	<h1>Popis mjesta u Republici Hrvatskoj</h1>
+	<div class="section group">
+		<div class="col span_1_of_2">
+			<form method="post" action="preuzimanje_json.php">
+				<fieldset>
+					<legend>Preuzimanje popisa u JSON formatu</legend>
+					<input type="submit" value="Preuzmi JSON" name="preuzmi" />
+				</fieldset>
+			</form>
+			
+			<br />	
 
-	<h1>Popis mjesta RH</h1>
-	<form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
-		<input type="submit" value="Preuzmi JSON" name="preuzmi" />
-	</form>
-	<br />
+			<form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>" enctype="multipart/form-data" accept=".json" >
+				<fieldset>
+					<legend>Unos izravno u bazu podataka (JSON -> SQL)</legend>
+					<label for ="host">Host*</label>
+					<br />
+					<input type="text" name="host" id="host" required="required" value="<?php echo isset($_POST['host']) ? ($_POST['host']) : "" ?>" required="required" placeholder="localhost"/>
+					<br /><br />		
+					<label for ="imebaze">Naziv baze*</label>
+					<br />
+					<input type="text" name="imebaze" id="imebaze" value="<?php echo isset($_POST['imebaze']) ? ($_POST['imebaze']) : "" ?>" required="required" />
+					<br /><br />
+					<label for ="nazivtablice">Naziv tablice*</label>
+					<br />
+					<input type="text" name="nazivtablice" id="nazivtablice" value="<?php echo isset($_POST['nazivtablice']) ? ($_POST['nazivtablice']) : "" ?>" required="required" />
+					<br /><br />
+					<label for ="korisnickoime">Korisničko ime pristupa bazi</label>
+					<br />
+					<input type="text" name="korisnickoime" id="korisnickoime" value="<?php echo isset($_POST['korisnickoime']) ? ($_POST['korisnickoime']) : "" ?>" />
+					<br /><br />
+					<label for ="lozinka">Lozinka pristupa bazi</label>
+					<br />
+					<input type="password" name="lozinka" id="lozinka" value="<?php echo isset($_POST['lozinka']) ? ($_POST['lozinka']) : "" ?>"/>
+					<br /><br />
+					<label for ="datoteka">JSON datoteka*</label>
+					<br />
+					<input type="file" name="datoteka" id="datoteka" required="required"/>
+					<br /><br />
+					<input type="submit" value="Unesi u bazu" name="dodaj" class="siroko" />					
+					<p>* obavezan unos</p>
+				</fieldset>
+			</form>
+		</div>
 
-	<form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>" enctype="multipart/form-data" accept=".json" >
-		<label for ="host">Host</label>
-		<br />
-		<input type="text" name="host" id="host" required="required" value="localhost" />
-		<br /><br />		
-		<label for ="imebaze">Naziv baze</label>
-		<br />
-		<input type="text" name="imebaze" id="imebaze" required="required" />
-		<br /><br />
-		<label for ="nazivtablice">Naziv tablice</label>
-		<br />
-		<input type="text" name="nazivtablice" id="nazivtablice" required="required" />
-		<br /><br />
-		<label for ="korisnickoime">Korisničko ime pristupa bazi</label>
-		<br />
-		<input type="text" name="korisnickoime" id="korisnickoime" required="required" />
-		<br /><br />
-		<label for ="lozinka">Lozinka pristupa bazi</label>
-		<br />
-		<input type="text" name="lozinka" id="lozinka" required="required" />
-		<br /><br />
-		<label for ="datoteka">JSON datoteka</label>
-		<br />
-		<input type="file" name="datoteka" id="datoteka" required="required"/>
-		<br /><br />
-		<input type="submit" value="Dodaj u bazu" name="dodaj" />	
-		
-		<?php 
-			if (isset($poruka)){
-				echo "<h1>" . $poruka . "</h1>";
-			}
-		?>
-	</form>
-	<br />
-	
-		<?php
-			$popis_mjesta_republika_hrvatska = 'popis_mjesta_republika_hrvatska.json';
-			if(isset($_POST["preuzmi"])){
-				if (file_exists($popis_mjesta_republika_hrvatska)) {
-				header('Content-Description: File Transfer');
-				header('Content-Type: application/octet-stream');
-				header('Content-Disposition: attachment; filename="'.basename($popis_mjesta_republika_hrvatska).'"');
-				header('Expires: 0');
-				header('Cache-Control: must-revalidate');
-				header('Pragma: public');
-				header('Content-Length: ' . filesize($popis_mjesta_republika_hrvatska));
-				readfile($popis_mjesta_republika_hrvatska);
-				exit;
-				}
-			}
-		?>
+		<div class="col span_1_of_2">
+			<?php if (isset($poruka)): ?>
+				<h4>Popis mjesta RH uspješno je unesen u bazu. Prikazano je prvih 10 redova.</h4>
+				<table style="width:100%" border="1" cellpadding="5px">
+					<thead>
+						<tr>
+							<th>Poštanski broj</th>
+							<th>Mjesto</th>				
+							<th>Općina</th>
+							<th>Županija</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php 
+							$veza->beginTransaction();
+				  			$izraz=$veza->prepare("select * from $nazivtablice limit 10");
+							$izraz->execute();
+							$rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
+							foreach ($rezultati as $red):
+				  		?>
+					  	<tr>		  		
+					     	<td><?php echo $red->postanskiBroj ?></td>
+					     	<td><?php echo $red->mjesto ?></td>
+					     	<td><?php echo $red->opcina ?></td>
+					     	<td><?php echo $red->zupanija ?></td>
+					  	</tr>		  	
+					    <?php 
+					    	endforeach; 
+					    	$izraz=$veza->prepare("select count(*) from $nazivtablice");
+							$izraz->execute();
+							$ukupno = $izraz->fetchColumn();
+							$veza->commit();
+					    ?>
+					    <tr>
+					    	<td colspan="4"><?php echo "Ukupno zapisa: " . $ukupno ?></td>
+					    </tr>
+
+
+				 </tbody>
+				</table>
+			<?php endif; ?>
+		</div>
+	</div>
 </body>
 </html>

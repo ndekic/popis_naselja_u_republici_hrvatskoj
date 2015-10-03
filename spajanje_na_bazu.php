@@ -1,6 +1,6 @@
 <?php
 
-$mysql_host = "localhost";
+$mysql_host = $_POST['host'];
 $mysql_database = $_POST['imebaze'];
 $mysql_user = $_POST['korisnickoime'];
 $mysql_password = $_POST['lozinka'];
