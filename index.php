@@ -31,23 +31,23 @@
 					);
 					$izraz->execute($r);			
 				}
-			$poruka = "OK :)";
+			$poruka = true;
 			$veza->commit();
 		}
 		else{
-			$poruka = "Nije OK :(";
+			echo "Greška";
 		}
 	}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>JSON to SQL</title>
+	<title>Popis naselja u Republici Hrvatskoj</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/stil.css">
 </head>
 <body>
-	<h1>Popis mjesta u Republici Hrvatskoj</h1>
+	<h1>Popis naselja u Republici Hrvatskoj</h1>
 	<div class="section group">
 		<div class="col span_1_of_2">
 			<form method="post" action="preuzimanje_json.php">
@@ -94,44 +94,46 @@
 
 		<div class="col span_1_of_2">
 			<?php if (isset($poruka)): ?>
-				<h4>Popis mjesta RH uspješno je unesen u bazu podataka <i><?php echo $_POST["imebaze"] ?></i>.<br />Prikazano je prvih 10 redova tablice <i><?php echo $nazivtablice; ?></i>.</h4>
-				<table style="width:100%" border="1" cellpadding="5px">
-					<thead>
-						<tr>
-							<th>Poštanski broj</th>
-							<th>Mjesto</th>				
-							<th>Općina</th>
-							<th>Županija</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php 
-							$veza->beginTransaction();
-				  			$izraz=$veza->prepare("select * from $nazivtablice limit 10");
-							$izraz->execute();
-							$rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
-							foreach ($rezultati as $red):
-				  		?>
-					  	<tr>		  		
-					     	<td><?php echo $red->postanskiBroj ?></td>
-					     	<td><?php echo $red->mjesto ?></td>
-					     	<td><?php echo $red->opcina ?></td>
-					     	<td><?php echo $red->zupanija ?></td>
-					  	</tr>		  	
-					    <?php 
-					    	endforeach; 
-					    	$izraz=$veza->prepare("select count(*) from $nazivtablice");
-							$izraz->execute();
-							$ukupno = $izraz->fetchColumn();
-							$veza->commit();
-					    ?>
-					    <tr>
-					    	<td colspan="4"><?php echo "Ukupno zapisa: " . $ukupno ?></td>
-					    </tr>
-
-
-				 </tbody>
-				</table>
+			<fieldset>
+				<legend>Prikaz</legend>
+					<h4>Popis naselja u RH uspješno je unesen u bazu podataka <i><?php echo $_POST["imebaze"] ?></i>.<br />Prikazano je prvih 10 redova tablice <i><?php echo $nazivtablice; ?></i>.</h4>
+					<table style="width:100%" border="1" cellpadding="5px">
+						<thead>
+							<tr>
+								<th>Poštanski broj</th>
+								<th>Mjesto</th>				
+								<th>Općina</th>
+								<th>Županija</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php 
+								$veza->beginTransaction();
+					  			$izraz=$veza->prepare("select * from $nazivtablice limit 10");
+								$izraz->execute();
+								$rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
+								foreach ($rezultati as $red):
+					  		?>
+						  	<tr>		  		
+						     	<td><?php echo $red->postanskiBroj ?></td>
+						     	<td><?php echo $red->mjesto ?></td>
+						     	<td><?php echo $red->opcina ?></td>
+						     	<td><?php echo $red->zupanija ?></td>
+						  	</tr>		  	
+						    <?php 
+						    	endforeach; 
+						    	$izraz=$veza->prepare("select count(*) from $nazivtablice");
+								$izraz->execute();
+								$ukupno = $izraz->fetchColumn();
+								$veza->commit();
+						    ?>
+						    <tr>
+						    	<td colspan="4"><?php echo "Ukupno zapisa: " . $ukupno ?></td>
+						    </tr>
+					 </tbody>
+					</table>
+					<br /><br />
+				</fieldset>
 			<?php endif; ?>
 		</div>
 	</div>

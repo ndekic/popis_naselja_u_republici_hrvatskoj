@@ -7,6 +7,6 @@
     $izraz->execute();
     $rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
 
-	$dokument = fopen('popis_mjesta_republika_hrvatska.json', 'w');
+	$dokument = fopen('json/popis_naselja_u_republici_hrvatskoj.json', 'w');
 	fwrite($dokument, json_encode($rezultati));
 	fclose($dokument);
